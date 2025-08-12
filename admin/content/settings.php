@@ -1,6 +1,8 @@
 <?php
 // jika data setting sudah ada maka update data tersebut
 // selain itu kalau belum ada maka insert data
+$querysetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
+$row = mysqli_fetch_assoc($querysetting);
 
 if (isset($_POST['simpan'])) {
     $email = $_POST['email'];
@@ -11,20 +13,47 @@ if (isset($_POST['simpan'])) {
     $facebook = $_POST['facebook'];
     $instagram = $_POST['instagram'];
     $linkedin = $_POST['linkedin'];
-    $querysetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
-    if (mysqli_num_rows($querysetting) > 0) {
+
+
+
+    // jika gambar terupload
+    if (!empty($_FILES['company']['name'])) {
+        $company = $_FILES['company']['name'];
+        $path = "uploads/";
+        if (!is_dir($path)) {
+            mkdir($path);
+        }
+        $company_name = time() . "-" . basename($company);
+        $target_files = $path . $company_name;
+        if (move_uploaded_file($_FILES['company']['tmp_name'], $target_files)) {
+            //jika gambar ada, maka gambar sebelumnya akan diganti dengan gambar baru
+            if (!empty($row['company'])) {
+                unlink($path . $row['company']);
+            }
+        }
+    }
+
+
+    if ($row) {
         //update
-        $row = mysqli_fetch_assoc($querysetting);
+
         $id_setting = $row['id'];
-        $update = mysqli_query($koneksi, "UPDATE settings SET email='$email', phone='$phone', address='address', twitter='$twitter', facebook='$facebook', instagram='$instagram', linkedin='$linkedin' WHERE id = '$$id_setting'");
+        $update = mysqli_query($koneksi, "UPDATE settings SET email='$email', phone='$phone', address='$address', company = '$company_name', twitter='$twitter', facebook='$facebook', instagram='$instagram', linkedin='$linkedin' WHERE id = '$id_setting'");
+        if ($update) {
+            header("location:?page=settings&ubah=berhasil");
+        }
     } else {
         //insert
-        $insert = mysqli_query($koneksi, "INSERT INTO settings (email, phone, address, twitter, facebook, instagram, linkedin) 
-            VALUES ('$email', '$phone', '$address', '$twitter', '$facebook', '$instagram', '$linkedin')");
+        $insert = mysqli_query($koneksi, "INSERT INTO settings (email, phone, address, company, twitter, facebook, instagram, linkedin) 
+            VALUES ('$email', '$phone', '$address', '$company_name', '$twitter', '$facebook', '$instagram', '$linkedin')");
+        if ($update) {
+            header("location:?page=settings&tambah=berhasil");
+        }
     }
 }
-$querysetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
-$row = mysqli_fetch_assoc($querysetting);
+
+
+
 ?>
 
 
@@ -73,6 +102,8 @@ $row = mysqli_fetch_assoc($querysetting);
                         </div>
                         <div class="col-sm-6 mb-2">
                             <input type="file" name="company" id="">
+                            <img class="mt-2" width="100"
+                                src="uploads/<?php echo isset($row['company']) ? $row['company'] : '' ?>" alt="">
                         </div>
                         <div class="mb-2 row">
                             <label for="" class="form-label fw-bold">Twitter</label>

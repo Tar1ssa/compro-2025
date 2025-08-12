@@ -106,6 +106,13 @@
             </li><!-- End F.A.Q Page Nav -->
 
             <li class="nav-item">
+                <a class="nav-link collapsed" href="?page=slider">
+                    <i class="bi bi-gear"></i>
+                    <span>Slider</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-contact.html">
                     <i class="bi bi-envelope"></i>
                     <span>Contact</span>
