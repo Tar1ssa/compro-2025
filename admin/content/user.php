@@ -7,7 +7,7 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
     <h1>Data User</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="?page=home">Home</a></li>
             <li class="breadcrumb-item">Pages</li>
             <li class="breadcrumb-item active">User</li>
         </ol>

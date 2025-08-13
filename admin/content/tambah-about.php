@@ -5,27 +5,27 @@ $id = isset($_GET['edit']) ? $_GET['edit'] : '';
 
 if (isset($_GET['edit'])) {
     $id = $_GET['edit'];
-    $query = mysqli_query($koneksi, "SELECT * FROM slider WHERE id = '$id'");
+    $query = mysqli_query($koneksi, "SELECT * FROM about WHERE id = '$id'");
     $rowedit = mysqli_fetch_assoc($query);
-    $judul = "Edit slider";
+    $judul = "Edit about";
 } else {
-    $judul = "Tambah slider";
+    $judul = "Add about";
 }
 
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $image_query = mysqli_query($koneksi, "SELECT id, image FROM slider Where id='$id'");
+    $image_query = mysqli_query($koneksi, "SELECT id, image FROM about Where id='$id'");
 
     $image_row = mysqli_fetch_assoc($image_query);
     $image_name = $image_row['image'];
-    unlink("uploads/slider" . $image_name);
+    unlink("uploads/about/" . $image_name);
     $delete = mysqli_query(
         $koneksi,
-        "DELETE FROM slider WHERE id='$id'"
+        "DELETE FROM about WHERE id='$id'"
     );
     if ($delete) {
-        header("location:?page=slider&hapus=berhasil");
+        header("location:?page=about&hapus=berhasil");
     }
 }
 
@@ -33,7 +33,8 @@ if (isset($_GET['delete'])) {
 // saat tombol simpan ditekan
 if (isset($_POST['simpan'])) {
     $title = $_POST['title'];
-    $description = $_POST['description'];
+    $content = $_POST['content'];
+    $status = $_POST['status'];
     if (!empty($_FILES['image']['name'])) {
         $image = $_FILES['image']['name'];
         $tmp_name = $_FILES['image']['tmp_name'];
@@ -42,7 +43,7 @@ if (isset($_POST['simpan'])) {
         $ext_allow = ['image/png', 'image/jpg', 'image/jpeg'];
         if (in_array($type, $ext_allow)) {
             // echo 'image can be uploaded';
-            $path = "uploads/slider";
+            $path = "uploads/about/";
             if (!is_dir($path)) {
                 mkdir($path);
             }
@@ -60,18 +61,18 @@ if (isset($_POST['simpan'])) {
         }
     }
     if ($id) {
-        $update = mysqli_query($koneksi, "UPDATE slider SET title='$title', description='$description', image='$image_name' WHERE id='$id'");
+        $update = mysqli_query($koneksi, "UPDATE about SET title='$title', content='$content', image='$image_name', status='$status' WHERE id='$id'");
         if ($update) {
-            header("location:?page=slider&ubah=berhasil");
+            header("location:?page=about&ubah=berhasil");
         }
     } else {
-        $insert = mysqli_query($koneksi, "INSERT INTO slider (title, description, image) VALUES('$title', '$description', '$image_name')");
+        $insert = mysqli_query($koneksi, "INSERT INTO about (title, content, image, status) VALUES('$title', '$content', '$image_name', '$status')");
         if ($insert) {
-            header("location:?page=slider&tambah=berhasil");
+            header("location:?page=about&tambah=berhasil");
         }
     }
 }
-// $query = mysqli_query($koneksi, "SELECT * FROM slider ORDER BY id DESC");
+// $query = mysqli_query($koneksi, "SELECT * FROM about ORDER BY id DESC");
 // $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
 
@@ -85,7 +86,7 @@ if (isset($_POST['simpan'])) {
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="?page=home">Home</a></li>
             <li class="breadcrumb-item">Pages</li>
-            <li class="breadcrumb-item">slider</li>
+            <li class="breadcrumb-item">About</li>
             <li class="breadcrumb-item active"><?php echo $judul; ?></li>
         </ol>
     </nav>
@@ -101,7 +102,7 @@ if (isset($_POST['simpan'])) {
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="mb-3">
                             <label for="">Image</label>
-                            <img width="100" src="uploads/slider<?php echo ($id) ? $rowedit['image'] : '' ?>" alt="">
+                            <img width="100" src="uploads/about/<?php echo ($id) ? $rowedit['image'] : '' ?>" alt="">
                             <input type="file" name="image" id="" class="form-control" placeholder="Masukkan nama anda"
                                 value="<?php echo ($id) ? $rowedit['image'] : '' ?>">
 
@@ -110,20 +111,30 @@ if (isset($_POST['simpan'])) {
                         <div class="mb-3">
                             <label for="">Title</label>
                             <input type="text" name="title" id="" class="form-control"
-                                placeholder="Masukkan judul slider"
-                                value="<?php echo ($id) ? $rowedit['title'] : '' ?>">
+                                placeholder="Masukkan judul about" value="<?php echo ($id) ? $rowedit['title'] : '' ?>">
                             <img src="" alt="">
 
                         </div>
                         <div class="mb-3">
-                            <label for="">Description</label>
-                            <textarea name="description" id=""
-                                class="form-control"><?php echo ($id) ? $rowedit['description'] : '' ?></textarea>
+                            <label for="">Content</label>
+                            <textarea name="content" id="editor"
+                                class="form-control"><?php echo ($id) ? $rowedit['content'] : '' ?></textarea>
 
                         </div>
                         <div class="mb-3">
+                            <label for="">Status</label>
+                            <select name="status" id="">
+                                <option <?php echo ($id) ? $rowedit['status'] == 1 ? 'selected' : ''  : '' ?> value="1">
+                                    Publish
+                                </option>
+                                <option <?php echo ($id) ? $rowedit['status'] == 0 ? 'selected' : ''  : '' ?> value="0">
+                                    Draft
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <button type="submit" class="btn btn-success" name="simpan">Simpan</button>
-                            <a href="?page=slider" class="text-muted">Kembali</a>
+                            <a href="?page=about" class="text-muted">Kembali</a>
                         </div>
                     </form>
                 </div>

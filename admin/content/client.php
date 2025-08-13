@@ -1,15 +1,15 @@
 <?php
-$query = mysqli_query($koneksi, "SELECT * FROM slider ORDER BY id ASC");
+$query = mysqli_query($koneksi, "SELECT * FROM client ORDER BY id ASC");
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 ?>
 
 <div class="pagetitle">
-    <h1>Data slider</h1>
+    <h1>Data client</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="?page=home">Home</a></li>
             <li class="breadcrumb-item">Pages</li>
-            <li class="breadcrumb-item active">slider</li>
+            <li class="breadcrumb-item active">client</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -20,9 +20,9 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Data slider</h5>
+                    <h5 class="card-title">Data client</h5>
                     <div class="mb-3" align="right">
-                        <a href="?page=tambah-slider" class="btn btn-primary">Tambah</a>
+                        <a href="?page=tambah-client" class="btn btn-primary">Tambah</a>
                     </div>
                     <table class="table table-bordered">
                         <thead>
@@ -30,7 +30,7 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
                                 <th>No</th>
                                 <th>Image</th>
                                 <th>Title</th>
-                                <th>Content</th>
+                                <th>Status</th>
                                 <th></th>
 
                             </tr>
@@ -41,17 +41,17 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
                             ?>
                                 <tr>
                                     <td><?php echo $key += 1 ?></td>
-                                    <td><img width="100" src="uploads/slider<?php echo ($row['image']) ?>" alt="">
+                                    <td><img width="100" src="uploads/client/<?php echo ($row['image']) ?>" alt="">
                                     </td>
-                                    <td><?php echo $row['title'] ?></td>
-                                    <td><?php echo $row['description'] ?></td>
+                                    <td><?php echo $row['name'] ?></td>
+                                    <td><?php echo $row['status'] ?></td>
                                     <td>
-                                        <a href="?page=tambah-slider&edit=<?php echo $row['id'] ?>"
+                                        <a href="?page=tambah-client&edit=<?php echo $row['id'] ?>"
                                             class="btn btn-sm btn-success">
                                             Edit
                                         </a>
                                         <a onclick="return confirm('apakah anda yakin akan menghapus data ini?')"
-                                            href="?page=tambah-slider&delete=<?php echo $row['id'] ?>"
+                                            href="?page=tambah-client&delete=<?php echo $row['id'] ?>"
                                             class="btn btn-sm btn-danger">
                                             Delete
                                         </a>

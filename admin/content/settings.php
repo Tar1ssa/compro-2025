@@ -61,7 +61,7 @@ if (isset($_POST['simpan'])) {
     <h1>Settings</h1>
     <nav>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="?page=home">Home</a></li>
             <li class="breadcrumb-item">Pages</li>
             <li class="breadcrumb-item active">Settings</li>
         </ol>

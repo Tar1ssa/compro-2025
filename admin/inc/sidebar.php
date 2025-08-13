@@ -3,7 +3,7 @@
         <ul class="sidebar-nav" id="sidebar-nav">
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="index.html">
+                <a class="nav-link collapsed" href="?page=home">
                     <i class="bi bi-grid"></i>
                     <span>Dashboard</span>
                 </a>
@@ -14,19 +14,29 @@
                     <i class="bi bi-menu-button-wide"></i><span>Page</span><i class="bi bi-chevron-down ms-auto"></i>
                 </a>
                 <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a href="components-alerts.html">
-                            <i class="bi bi-circle"></i><span>Alerts</span>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="?page=slider">
+                            <i class="bi bi-gear"></i>
+                            <span>Slider</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="?page=about">
+                            <i class="bi bi-gear"></i>
+                            <span>About</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link collapsed" href="?page=client">
+                            <i class="bi bi-gear"></i>
+                            <span>Client</span>
                         </a>
                     </li>
                     <li>
-                        <a href="components-accordion.html">
-                            <i class="bi bi-circle"></i><span>Accordion</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="components-badges.html">
-                            <i class="bi bi-circle"></i><span>Badges</span>
+                        <a href="?page=blog">
+                            <i class="bi bi-circle"></i><span>Blog</span>
                         </a>
                     </li>
                     <li>
@@ -105,12 +115,7 @@
                 </a>
             </li><!-- End F.A.Q Page Nav -->
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="?page=slider">
-                    <i class="bi bi-gear"></i>
-                    <span>Slider</span>
-                </a>
-            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-contact.html">
