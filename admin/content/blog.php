@@ -1,10 +1,17 @@
 <?php
-$query = mysqli_query($koneksi, "SELECT categories.name, blog.* FROM blog JOIN categories ON categories.id = blog.id_category ORDER BY blog.id DESC");
+// $query = mysqli_query($koneksi, "SELECT categories.name, blog.* FROM blog JOIN categories ON categories.id = blog.id_category ORDER BY blog.id DESC");
+
+$query = mysqli_query($koneksi, "SELECT categories.name, blog.* FROM blog
+ JOIN categories ON categories.id = blog.id_category
+ ORDER BY blog.id DESC");
+
 $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
+
+
 
 function changeis_active($isactive)
 {
-    switch ($variable) {
+    switch ($isactive) {
         case '1':
             $title = "<span class='badge bg-primary'>publish</span>";
             break;
@@ -44,7 +51,7 @@ function changeis_active($isactive)
                                 <th>No</th>
                                 <th>Image</th>
                                 <th>Title</th>
-                                <th>is_active</th>
+                                <th>Status</th>
                                 <th>Category</th>
                                 <th></th>
 
@@ -59,8 +66,8 @@ function changeis_active($isactive)
                                     <td><img width="100" src="uploads/blog/<?php echo ($row['image']) ?>" alt="">
                                     </td>
                                     <td><?php echo $row['title'] ?></td>
-                                    <td><?php echo $row['name'] ?></td>
                                     <td><?php echo changeis_active($row['is_active']) ?></td>
+                                    <td><?php echo $row['id_category'] ?></td>
                                     <td>
                                         <a href="?page=tambah-blog&edit=<?php echo $row['id'] ?>"
                                             class="btn btn-sm btn-success">
@@ -72,6 +79,7 @@ function changeis_active($isactive)
                                             Delete
                                         </a>
                                     </td>
+
                                 </tr>
                             <?php endforeach ?>
                         </tbody>

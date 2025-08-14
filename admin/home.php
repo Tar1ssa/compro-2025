@@ -35,6 +35,9 @@ if (empty($_SESSION['ID_USER'])) {
     </script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
+    <link rel="stylesheet" href="assets/js/tagify/tagify.css">
+    <!-- <link rel="stylesheet" href="assets/js/tags/dist/inputTags.min.css"> -->
 </head>
 
 <body>
@@ -73,11 +76,19 @@ if (empty($_SESSION['ID_USER'])) {
 
 
     <script>
-    $('#editor').summernote({
-        placeholder: 'Input about content here',
+        $('#editor').summernote({
+            placeholder: 'Input about content here',
 
 
-    });
+        });
+    </script>
+    <script>
+        $('#tags').inputTags();
+    </script>
+    <script src="assets/js/tagify/tagify.js"></script>
+    <script>
+        let input = document.querySelector('#tags');
+        new Tagify(input)
     </script>
 </body>
 

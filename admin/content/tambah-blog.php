@@ -1,4 +1,6 @@
 <?php
+
+
 $id = isset($_GET['edit']) ? $_GET['edit'] : '';
 
 
@@ -12,7 +14,7 @@ if (isset($_GET['edit'])) {
     $judul = "Add blog";
 }
 
-
+// untuk menghapus data
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
     $image_query = mysqli_query($koneksi, "SELECT id, image FROM blog Where id='$id'");
@@ -33,14 +35,21 @@ if (isset($_GET['delete'])) {
 // saat tombol simpan ditekan
 if (isset($_POST['simpan'])) {
     $title = $_POST['title'];
+    $tagsraw = $_POST['tags'];
+    // $tagsunload = json_decode($tagsraw, true);
+    // $tagsvalue = array_column($tagsunload, 'value');
+    // $tagsstring = implode(',', $tagsvalue);
     $content = $_POST['content'];
     $is_active = $_POST['is_active'];
+    $writer = $_SESSION['NAME'];
+    $id_category = $_POST['id_category'];
+    // mengecek apakah terdapat gambar
     if (!empty($_FILES['image']['name'])) {
         $image = $_FILES['image']['name'];
         $tmp_name = $_FILES['image']['tmp_name'];
         $type = $_FILES['image']['type'];
-
         $ext_allow = ['image/png', 'image/jpg', 'image/jpeg'];
+        // mengecek apakah ekstensi gambar terdapat didalam variable allowed
         if (in_array($type, $ext_allow)) {
             // echo 'image can be uploaded';
             $path = "uploads/blog/";
@@ -59,14 +68,22 @@ if (isset($_POST['simpan'])) {
             echo 'image extension cant be uploaded';
             die;
         }
+        $update_gambar = "UPDATE blog SET title='$title', id_category='$id_category', content='$content', writer='$writer', image='$image_name', is_active='$is_active', WHERE id='$id'";
+        // tanpa gambar
+    } else {
+        $update_gambar = "UPDATE blog SET title='$title', id_category='$id_category', content='$content', writer='$writer', is_active='$is_active', tags='$tagsraw' WHERE id='$id'";
+        //dengan gambar
     }
+
     if ($id) {
-        $update = mysqli_query($koneksi, "UPDATE blog SET title='$title', content='$content', image='$image_name', is_active='$is_active' WHERE id='$id'");
+        $update = mysqli_query($koneksi, "$update_gambar");
+
         if ($update) {
             header("location:?page=blog&ubah=berhasil");
         }
     } else {
-        $insert = mysqli_query($koneksi, "INSERT INTO blog (title, content, image, is_active) VALUES('$title', '$content', '$image_name', '$is_active')");
+        $insert = mysqli_query($koneksi, "INSERT INTO blog (title, id_category, content, writer, image, is_active, tags) 
+        VALUES('$title', '$id_category', '$content', '$writer', '$image_name', '$is_active', '$tagsraw')");
         if ($insert) {
             header("location:?page=blog&tambah=berhasil");
         }
@@ -112,7 +129,7 @@ $rowcategories = mysqli_fetch_all($querycategories, MYSQLI_ASSOC);
                         <div class="mb-3">
                             <label for="" class="form-label">Category</label>
                             <select name="id_category" id="" class="form-control">
-                                <option value="" disabled selected>Select Category</option>
+                                <!-- <option value="" disabled selected>Select Category</option> -->
                                 <?php
                                 foreach ($rowcategories as $keycategories) { ?>
                                     <option value="<?php echo $keycategories['id'] ?>"><?php echo $keycategories['name'] ?>
@@ -137,7 +154,10 @@ $rowcategories = mysqli_fetch_all($querycategories, MYSQLI_ASSOC);
                             </textarea>
                         </div>
 
-
+                        <div class="mb-3">
+                            <label for="" class="form-label">Tags</label>
+                            <input type="text" id="tags" name="tags" />
+                        </div>
 
                     </div>
                 </div>
@@ -150,15 +170,6 @@ $rowcategories = mysqli_fetch_all($querycategories, MYSQLI_ASSOC);
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><?php echo $judul; ?></h5>
-
-
-                        <div class="mb-3">
-                            <label for="" class="form-label">Title</label>
-                            <input type="text" name="title" id="" class="form-control" placeholder="Masukkan judul blog"
-                                value="<?php echo ($id) ? $rowedit['title'] : '' ?>">
-                            <img src="" alt="">
-
-                        </div>
 
                         <div class="mb-3">
                             <label for="" class="form-label">Status</label>
