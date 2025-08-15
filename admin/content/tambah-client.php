@@ -59,9 +59,17 @@ if (isset($_POST['simpan'])) {
             echo 'image extension cant be uploaded';
             die;
         }
+
+        $update_gambar = "UPDATE client SET name='$name', image='$image_name', status='$status' WHERE id='$id'";
+        // mengedit tanpa mengubah gambar
+    } else {
+        $update_gambar = "UPDATE client SET name='$name', status='$status' WHERE id='$id'";
+        // mengedit dengan mengubah gambar
     }
+
+
     if ($id) {
-        $update = mysqli_query($koneksi, "UPDATE client SET name='$name', image='$image_name', status='$status' WHERE id='$id'");
+        $update = mysqli_query($koneksi, "$update_gambar");
         if ($update) {
             header("location:?page=client&ubah=berhasil");
         }

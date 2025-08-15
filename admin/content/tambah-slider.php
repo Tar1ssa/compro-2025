@@ -58,9 +58,16 @@ if (isset($_POST['simpan'])) {
             echo 'image extension cant be uploaded';
             die;
         }
+
+        $update_gambar = "UPDATE slider SET title='$title', description='$description', image='$image_name' WHERE id='$id'";
+        // mengedit tanpa mengubah gambar
+    } else {
+        $update_gambar = "UPDATE slider SET title='$title', description='$description' WHERE id='$id'";
+        // mengedit dengan mengubah gambar
     }
+
     if ($id) {
-        $update = mysqli_query($koneksi, "UPDATE slider SET title='$title', description='$description', image='$image_name' WHERE id='$id'");
+        $update = mysqli_query($koneksi, "$update_gambar");
         if ($update) {
             header("location:?page=slider&ubah=berhasil");
         }

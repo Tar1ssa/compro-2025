@@ -73,10 +73,14 @@ $rowblogrecent = mysqli_fetch_all($queryblogrecent, MYSQLI_ASSOC);
                                 <li><a href="#"><?php echo $rowblogdetails['id_category'] ?></a></li>
                             </ul>
 
+                            <?php
+                            $tag = json_decode($rowblogdetails['tags'], true);
+                            ?>
                             <i class="bi bi-tags"></i>
                             <ul class="tags">
-                                <?php foreach ($rowtag as $valuetags) { ?>
-                                    <li><a href="#"><?php echo $valuetags['tags'] ?></a></li>
+                                <?php foreach ($tag as $valuetags) { ?>
+                                    <li><a href="#"><?php
+                                                    echo $valuetags['value'] ?></a></li>
                                 <?php } ?>
 
                             </ul>
